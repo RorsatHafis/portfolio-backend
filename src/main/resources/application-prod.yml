@@ -10,6 +10,13 @@ spring:
 
     show-sql: false
 
+app:
+  cors:
+    allowed-origins: https://rorsat-hafis-portfolio-app.onrender.com
+  admin:
+    username: ${ADMIN_USERNAME}
+    password: ${ADMIN_PASSWORD}
+
 server:
   port: ${PORT:8080}
 

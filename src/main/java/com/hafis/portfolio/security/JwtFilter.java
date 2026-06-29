@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final UserDetailsService userDetailssDetailsService;
+    private final UserDetailsService userDetailsDetailsService;
 
 
     @Override
@@ -50,9 +50,9 @@ public class JwtFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext()
                     .getAuthentication() == null) {
 
-            UserDetails userDetails = userDetailssDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = userDetailsDetailsService.loadUserByUsername(username);
 
-            if (jwtService.isValid(username, userDetails)) {
+            if (jwtService.isValid(jwt, userDetails)) {
 
                 UsernamePasswordAuthenticationToken authToken = 
                     new UsernamePasswordAuthenticationToken(

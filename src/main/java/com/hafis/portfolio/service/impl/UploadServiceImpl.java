@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +32,9 @@ public class UploadServiceImpl implements UploadService {
     private final ImageRepository imageRepository;
     private final ProjectRepository projectRepository;
     private static final String UPLOAD_DIR = "uploads";
+    private static final List<String> ALLOWED_TYPES = List.of(
+                                        "image/jpeg", "image/png", "image/webp", "image/gif"
+                                    );
 
     @Override
     public List<ImageResponseDTO> upload (
@@ -62,6 +66,12 @@ public class UploadServiceImpl implements UploadService {
                 String storedName = UUID.randomUUID() + "-" + file.getOriginalFilename();
 
                 Path path = Paths.get(UPLOAD_DIR, storedName);
+
+                if (!ALLOWED_TYPES.contains(file.getContentType())) {
+
+                    throw new FileUploadException("Only images file are allowed");
+
+                }
 
                 Files.copy(file.getInputStream(), path);
 

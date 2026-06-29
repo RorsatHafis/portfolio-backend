@@ -82,6 +82,8 @@ public class ProjectController {
         @PathVariable Long id
     ) {
 
+        service.delete(id);
+
         return ApiResponse.success(
             "Project deleted successfully",
             null);
